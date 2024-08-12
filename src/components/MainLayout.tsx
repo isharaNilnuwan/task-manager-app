@@ -38,7 +38,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     //use a portal to set the nav bar search element to set dynamically
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen bg-gray-100 min-w-[1058px]">
             {/* Sidebar */}
             <div className="hidden md:flex flex-col w-64 bg-white">
                 <div className="flex items-center justify-center h-16 border-r border-b">
@@ -92,7 +92,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         </button>
                     </div>
                 </header>
-                <main className="flex-1 p-4">
+                <main className="flex-1 p-4 overflow-y-auto">
                     {children}
                 </main>
             </div>

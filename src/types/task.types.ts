@@ -17,7 +17,7 @@ export interface User {
 }
 
 export interface TaskColumn {
-    title: string;
+    title: TaskTypes;
     items: TaskConfigs[];
 }
 

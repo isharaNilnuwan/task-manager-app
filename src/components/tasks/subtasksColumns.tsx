@@ -8,9 +8,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { TaskConfigs } from "@/types/task.types";
 import { Draggable } from "@hello-pangea/dnd";
 import CreateTaskCard from "./createTaskCard";
+import { TaskTypes } from "@/constants/constants";
 
 interface SubtaskColumnsProp {
-    type: string;
+    type: TaskTypes;
     taskList: TaskConfigs[];
     draggingInProgress: boolean
 }
@@ -18,16 +19,6 @@ interface SubtaskColumnsProp {
 const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, draggingInProgress }) => {
 
     const [taskAddingInProgress, setTaskAddingProgress] = useState<boolean>(false);
-    const ignoreClick = useRef<boolean>(false)
-    
-    const onClickOutisde = useCallback(() => {        
-        if(ignoreClick.current) return;
-        setTaskAddingProgress(false);
-        //save task details to the list object if all fields are filled and save to local storage
-    }, [])
-    const taskAddingRef = useClickOutside(onClickOutisde, taskAddingInProgress);
-
-
 
     const renderHeader = () => {
         return (
@@ -48,9 +39,10 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
         if (draggingInProgress) return;
         if (taskAddingInProgress) {
             return (
-                <CreateTaskCard ref={taskAddingRef} ignoreOutsideClick={(open) => {
-                    ignoreClick.current = open;
-                }}/>
+                <CreateTaskCard
+                    type={type}
+                    taskAddingInProgress={taskAddingInProgress} 
+                    setTaskAddingProgress={setTaskAddingProgress}/>
             )
         } else {
             return (

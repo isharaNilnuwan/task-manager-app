@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 type Callback = () => void;
 
+// This hook triggers the callback when the user clicks outside the function
 const useClickOutside = (callback: Callback, taskAddingInProgress: boolean) => {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -14,12 +15,10 @@ const useClickOutside = (callback: Callback, taskAddingInProgress: boolean) => {
 
         if (taskAddingInProgress) {
             document.addEventListener('mousedown', handleClickOutside);
-            console.log("#$ add mousedown event")
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-            console.log("#$ remove mousedown event")
         };
     }, [taskAddingInProgress]);
 

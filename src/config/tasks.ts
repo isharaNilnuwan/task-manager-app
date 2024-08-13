@@ -1,6 +1,6 @@
 import { Priority, TaskTypes } from "@/constants/constants";
-import {TaskColumnsProps, TaskConfigs } from "@/types/task.types";
-import { v4 as uuidv4 } from 'uuid';
+import { TaskColumnsProps, TaskConfigs } from "@/types/task.types";
+import { v4 as uuidv4 } from "uuid";
 
 export const TodoList: TaskConfigs[] = [
   {
@@ -10,6 +10,7 @@ export const TodoList: TaskConfigs[] = [
     description: "",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "1",
       name: "Ishara Nilnuwan",
       avatar: "",
     },
@@ -22,6 +23,7 @@ export const TodoList: TaskConfigs[] = [
     description: "this is task 2",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "2",
       name: "kamel thabeth",
       avatar: "",
     },
@@ -34,6 +36,7 @@ export const TodoList: TaskConfigs[] = [
     description: "this is task3 ",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "3",
       name: "naruto",
       avatar: "",
     },
@@ -46,6 +49,7 @@ export const TodoList: TaskConfigs[] = [
     description: "this is task3 ",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "4",
       name: "naruto",
       avatar: "",
     },
@@ -61,6 +65,7 @@ export const InProgressList: TaskConfigs[] = [
     description: "define the architecture",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "1",
       name: "Ishara Nilnuwan",
       avatar: "",
     },
@@ -73,6 +78,7 @@ export const InProgressList: TaskConfigs[] = [
     description: "this is task 2",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "2",
       name: "kamel thabeth junior",
       avatar: "",
     },
@@ -85,6 +91,7 @@ export const InProgressList: TaskConfigs[] = [
     description: "this is task3 ",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "3",
       name: "naruto junior",
       avatar: "",
     },
@@ -100,49 +107,51 @@ export const CompleteList: TaskConfigs[] = [
     description: "define the architecture",
     date: "2024-08-12T07:35:30.402Z",
     user: {
+      id: "1",
       name: "Ishara Nilnuwan",
       avatar: "",
     },
     priority: Priority.Low,
   },
-//   {
-//     id: "172223491849465",
-//     name: "Task 2",
-//     type: TaskTypes.Complete,
-//     description: "this is task 2",
-//     date: "2024-08-12T07:35:30.402Z",
-//     user: {
-//       name: "kamel thabeth junior",
-//       avatar: "",
-//     },
-//     priority: Priority.High,
-//   },
-//   {
-//     id: "1723491849465222",
-//     name: "Task 3",
-//     type: TaskTypes.Complete,
-//     description: "this is task3 ",
-//     date: "2024-08-12T07:35:30.402Z",
-//     user: {
-//       name: "naruto junior",
-//       avatar: "",
-//     },
-//     priority: Priority.Medium,
-//   },
+  //   {
+  //     id: "172223491849465",
+  //     name: "Task 2",
+  //     type: TaskTypes.Complete,
+  //     description: "this is task 2",
+  //     date: "2024-08-12T07:35:30.402Z",
+  //     user: {
+  // id:"2",
+  //       name: "kamel thabeth junior",
+  //       avatar: "",
+  //     },
+  //     priority: Priority.High,
+  //   },
+  //   {
+  //     id: "1723491849465222",
+  //     name: "Task 3",
+  //     type: TaskTypes.Complete,
+  //     description: "this is task3 ",
+  //     date: "2024-08-12T07:35:30.402Z",
+  //     user: {
+  // id:"3",
+  //       name: "naruto junior",
+  //       avatar: "",
+  //     },
+  //     priority: Priority.Medium,
+  //   },
 ];
 
 export const TaskColumns: TaskColumnsProps = {
-    [TaskTypes.ToDo]: {
-      title: TaskTypes.ToDo,
-      items: TodoList,
-    },
-    [TaskTypes.InProgress]: {
-      title: TaskTypes.InProgress,
-      items: InProgressList,
-    },
-    [TaskTypes.Complete]: {
-      title: TaskTypes.Complete,
-      items: CompleteList,
-    },
-  };
-  
+  [TaskTypes.ToDo]: {
+    title: TaskTypes.ToDo,
+    items: TodoList,
+  },
+  [TaskTypes.InProgress]: {
+    title: TaskTypes.InProgress,
+    items: InProgressList,
+  },
+  [TaskTypes.Complete]: {
+    title: TaskTypes.Complete,
+    items: CompleteList,
+  },
+};

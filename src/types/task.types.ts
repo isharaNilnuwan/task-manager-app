@@ -11,6 +11,7 @@ export interface TaskConfigs {
 }
 
 export interface User {
+    id: string
     name : string;
     avatar: string;
 }

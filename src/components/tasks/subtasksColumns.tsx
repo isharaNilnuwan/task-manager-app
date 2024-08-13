@@ -3,10 +3,11 @@
 import { TodoList } from "@/config/tasks";
 import useClickOutside from "@/hooks/useClickOutisde";
 import { Add, Record } from "iconsax-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { TaskConfigs } from "@/types/task.types";
 import { Draggable } from "@hello-pangea/dnd";
+import CreateTaskCard from "./createTaskCard";
 
 interface SubtaskColumnsProp {
     type: string;
@@ -15,9 +16,12 @@ interface SubtaskColumnsProp {
 }
 
 const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, draggingInProgress }) => {
-    const [subtaskcount, setSubTaskCount] = useState<number>(TodoList.length);
+
     const [taskAddingInProgress, setTaskAddingProgress] = useState<boolean>(false);
-    const onClickOutisde = useCallback(() => {
+    const ignoreClick = useRef<boolean>(false)
+    
+    const onClickOutisde = useCallback(() => {        
+        if(ignoreClick.current) return;
         setTaskAddingProgress(false);
         //save task details to the list object if all fields are filled and save to local storage
     }, [])
@@ -33,7 +37,7 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
                         <Record size="30" color="#FF8A65" />
                         {type}
                     </CardTitle>
-                    {subtaskcount}
+                    {taskList.length}
                 </CardHeader>
             </Card>
 
@@ -43,16 +47,10 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
     const renderAddTaskSection = () => {
         if (draggingInProgress) return;
         if (taskAddingInProgress) {
-            //add task draft component
             return (
-                <Card ref={taskAddingRef} className="mt-4">
-                    <CardHeader className="flex flex-row p-4 ">
-                        <CardTitle className="flex flex-row ">
-                            add a task
-                        </CardTitle>
-                        {subtaskcount}
-                    </CardHeader>
-                </Card>
+                <CreateTaskCard ref={taskAddingRef} ignoreOutsideClick={(open) => {
+                    ignoreClick.current = open;
+                }}/>
             )
         } else {
             return (
@@ -82,6 +80,7 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
                                     </CardHeader>
                                     <CardContent className="py-4 border-b">
                                         <p>{taskItem.description}</p>
+                                        {taskItem.type}
                                     </CardContent>
                                     <CardFooter className="py-3">
                                         <p>4 min ago</p>

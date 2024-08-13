@@ -1,6 +1,6 @@
 export enum TaskTypes {
     ToDo = "ToDo",
-    InProgress = "Progress",
+    InProgress = "In Progress",
     Complete = "Complete"
 }
 

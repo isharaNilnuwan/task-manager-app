@@ -1,3 +1,5 @@
+import { TaskColumns } from '@/config/tasks';
+import { TaskTypes } from '@/constants/constants';
 import { TaskColumnsProps } from '@/types/task.types';
 import { Dispatch, SetStateAction } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
@@ -9,11 +11,14 @@ const useDragAndDrop = (columns: TaskColumnsProps, setColumns: Dispatch<SetState
         const { source, destination } = result;
 
         if (source.droppableId !== destination.droppableId) {
+            console.log("#$ change columns")
             const sourceColumn = columns[source.droppableId];
             const destColumn = columns[destination.droppableId];
             const sourceItems = [...sourceColumn.items];
             const destItems = [...destColumn.items];
             const [removed] = sourceItems.splice(source.index, 1);
+            removed.type = destination.droppableId as TaskTypes;
+            ;
             destItems.splice(destination.index, 0, removed);
 
             setColumns({
@@ -41,6 +46,7 @@ const useDragAndDrop = (columns: TaskColumnsProps, setColumns: Dispatch<SetState
                 },
             });
         }
+        //save the data as well thouth a hook
         setdragginginProgress(false);
     };
 

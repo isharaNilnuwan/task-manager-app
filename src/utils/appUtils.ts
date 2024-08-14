@@ -19,8 +19,7 @@ export function formatDate(date: Date, format: string) {
   return moment(date).format(format);
 }
 
-export function get_M_D_Format(date: string) {
-    console.log("#$ getdate md formt")
+export function get_M_D_Format(date: string) {    
     const formattedObj = new Date(date)
   return formatDate(formattedObj, "MMM DD");
 }

@@ -47,7 +47,10 @@ const ViewTaskCard: React.FC<ViewTaskCardProps> = ({ taskItem }) => {
 
                 </CardContent>
                 <CardFooter className="py-3">
-                    {dueDateTextWrapper(taskItem.date)}
+                    {taskItem.type !== TaskTypes.Complete && (
+                        <>{dueDateTextWrapper(taskItem.date)}</>
+                    )}
+                    
 
                 </CardFooter>
             </Card>

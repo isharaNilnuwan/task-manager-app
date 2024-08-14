@@ -192,7 +192,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
         <Card ref={taskAddingRef} className="mt-4">
             <CardHeader className="py-4 border-b">
                 <div className="flex flex-row items-center gap-2">
-                    <TickCircle size="32" color="#FF8A65" />
+                    <TickCircle size="32" color="#9f9f9f" />
                     <textarea
                         className="resize-none overflow-hidden border-none focus:outline-none focus:ring-0 line-clamp-1 max-w-full"
                         id="title"

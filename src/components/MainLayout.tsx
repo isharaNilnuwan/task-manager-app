@@ -40,7 +40,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className="flex h-screen bg-gray-100 min-w-[1058px]">
             {/* Sidebar */}
-            <div className="hidden md:flex flex-col w-64 bg-white">
+            <div className="hidden md:flex flex-col w-80 bg-white">
                 <div className="flex items-center justify-center h-16 border-r border-b">
                     <span className="text-black font-bold ">Code94 Labs</span>
                 </div>

@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 
 
-const useDragAndDrop = (columns: TaskColumnsProps, setColumns: Dispatch<SetStateAction<TaskColumnsProps>>, setdragginginProgress: Dispatch<SetStateAction<boolean>>) => {
+const useDragAndDrop = (columns: TaskColumnsProps, setColumns: (columns: TaskColumnsProps) => void, setdragginginProgress: Dispatch<SetStateAction<boolean>>) => {
     const onDragEnd = (result: DropResult) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -17,9 +17,12 @@ const useDragAndDrop = (columns: TaskColumnsProps, setColumns: Dispatch<SetState
             const sourceItems = [...sourceColumn.items];
             const destItems = [...destColumn.items];
             const [removed] = sourceItems.splice(source.index, 1);
-            removed.type = destination.droppableId as TaskTypes;
+            const updatedTask = {
+                ...removed,
+                type: destination.droppableId as TaskTypes,
+              };
             ;
-            destItems.splice(destination.index, 0, removed);
+            destItems.splice(destination.index, 0, updatedTask);
 
             setColumns({
                 ...columns,

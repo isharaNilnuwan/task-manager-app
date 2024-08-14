@@ -1,7 +1,5 @@
 "use client"
 
-import { TodoList } from "@/config/tasks";
-import useClickOutside from "@/hooks/useClickOutisde";
 import { Add, Record } from "iconsax-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
@@ -9,6 +7,7 @@ import { TaskConfigs } from "@/types/task.types";
 import { Draggable } from "@hello-pangea/dnd";
 import CreateTaskCard from "./createTaskCard";
 import { TaskTypes } from "@/constants/constants";
+import ViewTaskCard from "./viewTaskCard";
 
 interface SubtaskColumnsProp {
     type: TaskTypes;
@@ -66,18 +65,7 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
                             {...provided.dragHandleProps}
                         >
                             <div className="pt-4">
-                                <Card key={taskItem.id}>
-                                    <CardHeader className="py-4  border-b ">
-                                        <CardTitle className="">Card Title</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="py-4 border-b">
-                                        <p>{taskItem.description}</p>
-                                        {taskItem.type}
-                                    </CardContent>
-                                    <CardFooter className="py-3">
-                                        <p>4 min ago</p>
-                                    </CardFooter>
-                                </Card>
+                                <ViewTaskCard taskItem={taskItem}/>
                             </div>
                         </div>
                     )}
@@ -106,3 +94,7 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
 }
 
 export default SubtaskColumns;
+function useSelector(selectTaskColumns: any) {
+    throw new Error("Function not implemented.");
+}
+

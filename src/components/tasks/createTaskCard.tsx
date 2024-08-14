@@ -9,7 +9,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Button } from "../ui/button";
 import { TaskConfigs, User } from "@/types/task.types";
 import { users } from "@/config/users";
-import { getAvater } from "../common/avatar";
+import { avatarWithName, getAvater } from "../common/avatar";
 import CustomDropdownMenu from "../common/customDropdown";
 import CustomCalendar from "../common/customCalander";
 import useClickOutside from "@/hooks/useClickOutisde";
@@ -20,17 +20,11 @@ interface CreateTaskCardProps {
     setTaskAddingProgress: (taskAddingInProgress: boolean) => void
 }
 
-import type { RootState } from '../../app/GlobalRedux/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { addTaskToColumn, updateTaskColumns } from "@/app/GlobalRedux/Features/taskColumn/taskColumnSlice";
-import { TodoList } from "@/config/tasks";
 
-const selectTaskColumns = (state: RootState) => state.taskColumns;
 
 const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgress, setTaskAddingProgress }) => {
-
-    const taskColumns = useSelector(selectTaskColumns);
-    console.log("#$ columns", taskColumns);
 
     const dispatch = useDispatch();
 
@@ -42,10 +36,8 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const [ignoreClick, setIgnoreClick] = useState<boolean>(false)
 
     const onClickOutisde = useCallback(() => {
-        setTaskAddingProgress(false);            
+        setTaskAddingProgress(false);
         addTaskToList();
-        
-
         //save task details to the list object if all fields are filled and save to local storage
     }, [selectedPriority, selectedUser, date, taskTitle])
 
@@ -63,8 +55,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const userSelectTriggerElem = useMemo(() => {
         return selectedUser ? (
             <div>
-                {getAvater(selectedUser)}
-                {selectedUser.name}
+                {avatarWithName(selectedUser, 8)}                
             </div>
 
         ) : (
@@ -87,12 +78,12 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
                 name: taskTitle,
                 type: type,
                 description: "",
-                date: date.toString(),
+                date: date,
                 user: selectedUser,
                 priority: selectedPriority
             }
-    
-            dispatch(addTaskToColumn({ type: type, task: Task}));
+
+            dispatch(addTaskToColumn({ type: type, task: Task }));
         }
 
     }
@@ -163,7 +154,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
                                     aria-selected={selectedUser === user}
                                 >
                                     {
-                                        getAvater(user)
+                                        getAvater(user, 8)
                                     }
                                     {user.name}
                                 </DropdownMenuItem>

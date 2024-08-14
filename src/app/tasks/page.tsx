@@ -7,13 +7,25 @@ import { TaskColumn, TaskColumnsProps } from "@/types/task.types";
 import { useState } from "react";
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import useDragAndDrop from "@/hooks/useDragAndDrop";
+import { RootState } from "../GlobalRedux/store";
+import { useSelector, useDispatch } from 'react-redux';
+import { updateTaskColumns } from "../GlobalRedux/Features/taskColumn/taskColumnSlice";
+
+const selectTaskColumns = (state: RootState) => state.taskColumns;
 
 const Dashboard = () => {
-
-    const [columns, setColumns] = useState<TaskColumnsProps>(TaskColumns);
+    const dispatch = useDispatch();    
+    const taskColumns = useSelector(selectTaskColumns);
+    const [columns, setColumns] = useState<TaskColumnsProps>(taskColumns);
     const [draggingInProgress, setdragginginProgress] = useState<boolean>(false);
 
-    const { onDragEnd } = useDragAndDrop(columns, setColumns, setdragginginProgress);
+    const updateColumns = (newTaskColumns: TaskColumnsProps) => {
+        dispatch(updateTaskColumns(newTaskColumns))
+    }
+
+    const { onDragEnd } = useDragAndDrop(taskColumns, updateColumns, setdragginginProgress);
+
+    console.log("#$ task column props", taskColumns)
 
     return (
         <DragDropContext
@@ -24,7 +36,7 @@ const Dashboard = () => {
         >
             <div className="flex  p-4">
                 {
-                    Object.entries(columns).map(([columnId, column], index) => {
+                    Object.entries(taskColumns).map(([columnId, column], index) => {
                         return (
                             <Droppable key={columnId} droppableId={columnId}>
                                 {(droppableProvided, snapshot) => (

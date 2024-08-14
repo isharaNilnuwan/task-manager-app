@@ -5,7 +5,7 @@ export interface TaskConfigs {
     name : string;
     type : TaskTypes;
     description: string;
-    date: string;
+    date: Date;
     user: User;
     priority: Priority;
 }

@@ -1,5 +1,5 @@
-import { Priority, TaskTypes } from "@/constants/constants";
-import { TaskColumnsProps, TaskConfigs } from "@/types/task.types";
+import { DeadLineStatus, Priority, TaskTypes } from "@/constants/constants";
+import { contentStyleProps, TaskColumnsProps, TaskConfigs } from "@/types/task.types";
 import { v4 as uuidv4 } from "uuid";
 
 export const TodoList: TaskConfigs[] = [
@@ -154,4 +154,30 @@ export const TaskColumns: TaskColumnsProps = {
     title: TaskTypes.Complete,
     items: CompleteList,
   },
+};
+
+export const priorityStyles: Record<Priority, contentStyleProps> = {
+    [Priority.Low]: {
+        backgroundColor: '#F0FFFF',
+        contentColor: '#0096FF' 
+    },
+    [Priority.Medium]: {
+        backgroundColor: '#FFFFF0',
+        contentColor: '#FFC300'
+    },
+    [Priority.High]: {
+        backgroundColor: '#f9f3f5', // Light red
+        contentColor: '#FF0000' // Red
+    }
+};
+
+export const dueDateStyles: Record<DeadLineStatus, contentStyleProps> = {
+    [DeadLineStatus.Overdue]: {
+        backgroundColor: '#f9f3f5',
+        contentColor: '#FF0000' 
+    },
+    [DeadLineStatus.NotDue]: {
+        backgroundColor: '#F0FFFF',
+        contentColor: '#0096FF' 
+    }
 };

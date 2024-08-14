@@ -1,3 +1,4 @@
+import { DeadLineStatus } from "@/constants/constants";
 import moment from "moment";
 
 export function getFirstAndLastInitials(str: string) {
@@ -18,19 +19,32 @@ export function formatDate(date: Date, format: string) {
   return moment(date).format(format);
 }
 
-export function get_M_D_Format(date: Date) {
-  return formatDate(date, "MMM DD");
+export function get_M_D_Format(date: string) {
+    console.log("#$ getdate md formt")
+    const formattedObj = new Date(date)
+  return formatDate(formattedObj, "MMM DD");
 }
 
-export function get_D_M_Y_Format(date: Date) {
-  return formatDate(date, "DD MMMM YYYY");
+export function get_D_M_Y_Format(date: string) {
+    const formattedObj = new Date(date)
+  return formatDate(formattedObj, "DD MMMM YYYY");
 }
 
-export function getRemainingTimeText(dueDate: Date) {
+export function getDueDateStatus(dueDate: string) {
+    return getDayDiff(dueDate) >= 0 ? DeadLineStatus.NotDue : DeadLineStatus.Overdue;
+
+}
+
+function getDayDiff (dueDate: string) {
+    const formattedObj = new Date(dueDate)
     const now = moment();
-    const due = moment(dueDate);
-  
-    const daysDifference = due.diff(now, 'days');
+    const due = moment(formattedObj);
+
+    return due.diff(now, 'days');
+}
+
+export function getRemainingTimeText(dueDate: string) {
+    const daysDifference = getDayDiff(dueDate);
   
     if (daysDifference > 1) {
       return `Should complete within ${daysDifference} days`;

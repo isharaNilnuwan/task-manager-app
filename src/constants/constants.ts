@@ -9,3 +9,8 @@ export enum Priority {
     Medium = "Medium",
     High = "High"   
 }
+
+export enum DeadLineStatus {
+    NotDue = 'NotDue',
+    Overdue = 'Overdue',
+  }

@@ -5,7 +5,7 @@ export interface TaskConfigs {
     name : string;
     type : TaskTypes;
     description: string;
-    date: Date;
+    date: string;
     user: User;
     priority: Priority;
 }
@@ -24,3 +24,8 @@ export interface TaskColumn {
 export type TaskColumnsProps = {
     [key: string]: TaskColumn;
 };
+
+export interface contentStyleProps {
+    backgroundColor: string;
+    contentColor: string;
+}

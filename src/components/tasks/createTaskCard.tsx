@@ -22,6 +22,7 @@ interface CreateTaskCardProps {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addTaskToColumn, updateTaskColumns } from "@/app/GlobalRedux/Features/taskColumn/taskColumnSlice";
+import { date_M_D_FormatWrapper, priorityTaskWrapper } from "../common/wrappers";
 
 
 const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgress, setTaskAddingProgress }) => {
@@ -46,39 +47,42 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
 
     const priorityTriggerElem = useMemo(() => {
         return selectedPriority ? (
-            <Button>{selectedPriority}</Button>
+            <>{priorityTaskWrapper(selectedPriority)}</>
         ) : (
-            <Button>Set Priority</Button>
+            <div className="flex items-center bg-gray-50 text-xs rounded-lg px-2 py-1">
+                <p>Set Priority</p>
+            </div>
         );
     }, [selectedPriority]);
 
     const userSelectTriggerElem = useMemo(() => {
         return selectedUser ? (
-            <div>
-                {avatarWithName(selectedUser, 8)}                
+            <div className="h-10 w-10">
+                {getAvater(selectedUser, 10)}
             </div>
 
         ) : (
-            <ProfileCircle size="32" color="#FF8A65" />
+            <ProfileCircle size="32" color="#9f9f9f" />
         );
     }, [selectedUser]);
 
     const calendarSelectTriggerElem = useMemo(() => {
         return date ? (
-            <div>{date.toDateString()}</div>
+            <div>{date_M_D_FormatWrapper(date.toISOString())}</div>
         ) : (
-            <CalendarCircle size="32" color="#FF8A65" />
+            <CalendarCircle size="32" color="#9f9f9f" />
         );
     }, [date]);
 
     const addTaskToList = () => {
+        console.log("#$ add to task list")
         if (selectedPriority && taskTitle && selectedUser && date) {
             const Task: TaskConfigs = {
                 id: Date.now().toString(),
                 name: taskTitle,
                 type: type,
                 description: "",
-                date: date,
+                date: date.toISOString(),
                 user: selectedUser,
                 priority: selectedPriority
             }
@@ -88,8 +92,11 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
 
     }
 
+    //event handlers
     const handleDropdownOpenChange = (open: boolean) => {
-        setIgnoreClick(open);
+        setTimeout(() => {
+            setIgnoreClick(open);
+        }, 0);
     };
 
     const handleCalanderOpenChange = (open: boolean) => {
@@ -115,6 +122,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
 
 
 
+    //render methods
     const renderPrioritySelection = () => {
         return (
             <CustomDropdownMenu
@@ -152,9 +160,10 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
                                 <DropdownMenuItem key={user.id}
                                     onSelect={() => handleUserSelect(user)}
                                     aria-selected={selectedUser === user}
+                                    className="gap-1"
                                 >
                                     {
-                                        getAvater(user, 8)
+                                        getAvater(user, 7)
                                     }
                                     {user.name}
                                 </DropdownMenuItem>
@@ -181,26 +190,30 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
 
     return (
         <Card ref={taskAddingRef} className="mt-4">
-            <CardHeader className="py-4  border-b">
-                <div className="flex flex-row gap-1">
+            <CardHeader className="py-4 border-b">
+                <div className="flex flex-row items-center gap-2">
                     <TickCircle size="32" color="#FF8A65" />
-                    <Input className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    <textarea
+                        className="resize-none overflow-hidden border-none focus:outline-none focus:ring-0 line-clamp-1 max-w-full"
                         id="title"
                         placeholder="Write a task name"
                         value={taskTitle}
                         onChange={(e) => {
-                            setTaskTitle(e.target.value)
+                            setTaskTitle(e.target.value.slice(0, 100));
                         }}
+                        rows={1}
                     />
                 </div>
             </CardHeader>
-            <CardContent className="py-4 border-b">
-                {
-                    renderProfilePicture()
-                }
-                {
-                    renderCalander()
-                }
+            <CardContent className="py-4 border-b flex justify-between items-center">
+                <div className="flex items-center space-x-2">
+                    {
+                        renderProfilePicture()
+                    }
+                    {
+                        renderCalander()
+                    }
+                </div>
                 {
                     renderPrioritySelection()
                 }

@@ -6,8 +6,8 @@ export const getAvater = (user: User, size: number) => {
     const sizeClass = `w-${size} h-${size}`;
     return (
         <Avatar className={sizeClass}>
-            <AvatarImage src={user.avatar} alt="@shadcn" 
-            className="object-cover w-full h-full"/>
+            <AvatarImage sizes="sm" src={user.avatar} alt="@shadcn" 
+            />
             <AvatarFallback className="text-xs">{getFirstAndLastInitials(user.name)}</AvatarFallback>
         </Avatar>
     )

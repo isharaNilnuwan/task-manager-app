@@ -9,7 +9,7 @@ export default function Insights() {
         </p>
         <button
           className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300"
-          onClick={() => window.location.href = '/'}
+        //   onClick={() => window.location.href = '/'}
         >
           Return to Home
         </button>

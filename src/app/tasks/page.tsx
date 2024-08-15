@@ -41,7 +41,7 @@ const Dashboard = () => {
                 setdragginginProgress(true)
             }}
         >
-            <div className="flex  p-4">
+            <div className="flex  p-4 h-full">
                 {
                     Object.entries(taskColumns).map(([columnId, column], index) => {
                         return (

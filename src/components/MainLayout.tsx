@@ -1,42 +1,44 @@
 import React from 'react';
 import Link from 'next/link';
+import { Cardano, Chart1, DirectInbox, Home, Setting2, TaskSquare } from 'iconsax-react';
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const sideMenues = [
         {
             name: "Home",
-            svgUrl: "",
+            svgUrl: <Home size="31" color="#FF8A65"/>,
             path: "/"
         },
         {
             name: "Tasks",
-            svgUrl: "",
+            svgUrl: <TaskSquare size="31" color="#FF8A65"/>,
             path: "/tasks"
         },
         {
             name: "Report",
-            svgUrl: "",
+            svgUrl: <Chart1 size="31" color="#FF8A65"/>,
             path: "/report"
         },
         {
             name: "Insight",
-            svgUrl: "",
+            svgUrl: <Cardano size="31" color="#FF8A65"/>,
             path: "/insight"
         },
         {
             name: "Inbox",
-            svgUrl: "",
+            svgUrl: <DirectInbox size="31" color="#FF8A65"/>,
             path: "/inbox"
         },
         {
             name: "Settings",
-            svgUrl: "",
+            svgUrl: <Setting2 size="31" color="#FF8A65"/>,
             path: "/settings"
         }
     ];
 
-    //use a portal to set the nav bar search element to set dynamically
+
+    //to-do :use a portal to set the nav bar search element to set dynamically
     return (
         <div className="flex h-screen bg-gray-100 min-w-[1058px]">
             {/* Sidebar */}
@@ -50,22 +52,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <Link
                                 key={menu.name}
                                 href={menu.path}
-                                className="flex items-center px-4 py-2 text-gray-600 hover:bg-blue-500 hover:text-gray-100 bg-gray-100 mt-3 rounded font-inter"
+                                className="flex items-center px-4 py-2 text-gray-600 hover:bg-blue-500 hover:text-gray-100 bg-gray-100 mt-3 rounded font-inter gap-3"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 mr-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
+                                {menu.svgUrl}
                                 {menu.name}
                             </Link>
                         ))}
@@ -77,7 +66,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div className="flex flex-col flex-1 overflow-y-auto">
                 <header className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
                     <div className="flex items-center px-4">
-                        <button className="text-gray-500 focus:outline-none focus:text-gray-700" aria-label="Toggle Sidebar">
+                        <button className="text-gray-500 focus:outline-none focus:text-gray-700" aria-label="Toggle Sidebar ">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>

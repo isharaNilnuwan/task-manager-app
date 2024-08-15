@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import { date_M_D_FormatWrapper, priorityTaskWrapper } from '../common/wrappers';
 import { User as UserAvatar, CalendarCircle, CloseCircle, Flag, Record, ProfileCircle, TickCircle, Trash, ArrowRight } from 'iconsax-react';

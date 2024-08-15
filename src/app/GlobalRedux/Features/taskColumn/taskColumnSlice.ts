@@ -25,6 +25,23 @@ const taskColumnsSlice = createSlice({
     updateTaskColumns(state, action: PayloadAction<TaskColumnsProps>) {
       return action.payload;
     },
+    updateTaskItem(
+      state,
+      action: PayloadAction<{ type: TaskTypes; task: TaskConfigs }>
+    ) {
+      const { type, task } = action.payload;
+      if (state[type]) {
+        const taskIndex = state[type].items.findIndex(item => item.id === task.id);
+        
+        if (taskIndex !== -1) {
+          state[type].items[taskIndex] = task;
+        } else {
+          state[type].items.push(task);
+        }
+      } else {
+        console.error(`Column type ${type} does not exist in state.`);
+      }
+    },
 
     addTaskToColumn(
       state,
@@ -50,7 +67,7 @@ const taskColumnsSlice = createSlice({
   },
 });
 
-export const { updateTaskColumns, addTaskToColumn, removeTaskFromColumn } =
+export const { updateTaskColumns, addTaskToColumn, removeTaskFromColumn, updateTaskItem } =
   taskColumnsSlice.actions;
 
 export default taskColumnsSlice.reducer;

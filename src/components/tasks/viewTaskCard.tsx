@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { TaskConfigs } from '@/types/task.types';
 import { TickCircle } from 'iconsax-react';
 import { TaskTypes } from '@/constants/constants';
 import { getAvater } from '../common/avatar';
-import DrawerModal from '../modals/drawerModal';
 import EditTaskCard from './editTaskCard';
-import { getRemainingTimeText } from '@/utils/appUtils';
 import { date_M_D_FormatWrapper, dueDateTextWrapper, priorityTaskWrapper } from '../common/wrappers';
+import DrawerModal from '../modals/rightSideBardrawer';
 
 interface ViewTaskCardProps {
     taskItem: TaskConfigs;
 }
 
 const ViewTaskCard: React.FC<ViewTaskCardProps> = ({ taskItem }) => {
+
+    const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
     const getTickColor = () => {
         return taskItem.type === TaskTypes.Complete ? "#1F816A" : "#222222";
@@ -59,16 +60,21 @@ const ViewTaskCard: React.FC<ViewTaskCardProps> = ({ taskItem }) => {
 
     }
     return (
+        <>
+        
         <DrawerModal
+            open={drawerOpen}
+            setOpen={setDrawerOpen}
             drawerTriggerElement={
                 renderCardElement()
             }
             drawerContent={
-                <EditTaskCard task={taskItem} />
-            }
-            drawerHeaderTitle={<>Mark Complete</>}
-            drawerHeaderDESC={'hllo'}
+                <EditTaskCard task={taskItem} setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen}/>
+            }               
         />
+    </>
+        
+
     );
 };
 

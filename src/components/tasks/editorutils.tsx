@@ -1,6 +1,6 @@
 import React from 'react';
 import { date_M_D_FormatWrapper, priorityTaskWrapper } from '../common/wrappers';
-import { User as UserAvatar, CalendarCircle, CloseCircle, Flag, Record, ProfileCircle } from 'iconsax-react';
+import { User as UserAvatar, CalendarCircle, CloseCircle, Flag, Record, ProfileCircle, TickCircle, Trash, ArrowRight } from 'iconsax-react';
 import { Priority, TaskTypes } from '@/constants/constants';
 import { User } from '@/types/task.types';
 import { avatarWithName } from '../common/avatar';
@@ -90,6 +90,27 @@ export const renderTaskStatusView = (type: TaskTypes, avatrSize: number) => {
         <div className="flex items-center space-x-2">
             <Record size={avatrSize} color={getStatusCircleColors(type)} />
             <span className="text-m text-gray-600">{type}</span>
+        </div>
+    )
+}
+
+export const renderTopBar = (avatrSize: number, color: string, setTaskStatus: React.Dispatch<React.SetStateAction<TaskTypes>>, setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>, onDeleteTask: ()=> void) => {
+    return (
+        <div className="flex flex-row items-center justify-between mb-4">
+            <div className="flex items-center space-x-2 rounded-lg border">
+                <TickCircle onClick={() => {
+                    setTaskStatus(TaskTypes.Complete);
+                }} size="26" color="#222222" />
+                <p className="text-sm" style={{ fontSize: '0.815rem' }}>Mark Complete</p>
+            </div>
+            <div className="flex items-center space-x-2">
+                <Trash onClick={() => {
+                    onDeleteTask();
+                }} size={avatrSize} color={color} />
+                <ArrowRight onClick={() => {
+                    setDrawerOpen(false);
+                }} size={avatrSize} color={color} />
+            </div>
         </div>
     )
 }

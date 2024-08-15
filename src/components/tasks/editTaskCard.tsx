@@ -1,7 +1,7 @@
 import { TaskConfigs, User } from '@/types/task.types';
-import React, { useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { avatarWithName, getAvater } from '../common/avatar';
-import { getRemainingTimeText, get_D_M_Y_Format, get_M_D_Format } from '@/utils/appUtils';
+import { getRemainingTimeText, getTaskObject, get_D_M_Y_Format, get_M_D_Format } from '@/utils/appUtils';
 import CustomDropdownMenu from '../common/customDropdown';
 import { Priority, TaskTypes } from '@/constants/constants';
 import CustomCalendar from '../common/customCalander';
@@ -9,15 +9,17 @@ import { date_M_D_FormatWrapper, priorityTaskWrapper } from '../common/wrappers'
 import { CalendarCircle, ProfileCircle, Flag, CloseCircle, DocumentText } from 'iconsax-react';
 import { DropdownMenuItem } from '../ui/dropdown-menu';
 import { users } from '@/config/users.config';
-import { renderAvatarLabel, renderCalanderlabel, renderDefaultDateSelectView, renderDefaultUserSelectView, renderPriorityLabel, renderSelectedDate, renderSelectedPriority, renderSelectedUser, renderTaskStatusView, rendertaskStatusLabel } from './editorutils';
-
+import { renderAvatarLabel, renderCalanderlabel, renderDefaultDateSelectView, renderDefaultUserSelectView, renderPriorityLabel, renderSelectedDate, renderSelectedPriority, renderSelectedUser, renderTaskStatusView, renderTopBar, rendertaskStatusLabel } from './editorutils';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateTaskItem, removeTaskFromColumn } from '@/app/GlobalRedux/Features/taskColumn/taskColumnSlice';
 
 interface EditTaskCardProps {
   task: TaskConfigs;
-  // onSave: (updatedTask: TaskItem) => void;
+  setDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  drawerOpen: boolean;
 }
 
-const EditTaskCard: React.FC<EditTaskCardProps> = ({ task }) => {
+const EditTaskCard: React.FC<EditTaskCardProps> = ({ task, setDrawerOpen, drawerOpen }) => {
   const [title, setTitle] = useState(task.name);
   const [taskStatus, setTaskStatus] = useState<TaskTypes>(task.type);
   const [dueDate, setDueDate] = useState<string>(task.date);
@@ -25,10 +27,21 @@ const EditTaskCard: React.FC<EditTaskCardProps> = ({ task }) => {
   const [selectedPriority, setselectedPriority] = useState<Priority>(task.priority);
   const [description, setDescription] = useState('');
   const [popoverOpen, setCalanderOpen] = useState<boolean>(false);
-
+  const dispatch = useDispatch();
 
   const nuetrelAvatarColor = '#9f9f9f';
   const avatarSize = 27;
+
+  useEffect(() => {
+    if (!drawerOpen) {
+      const addTaskToList = () => {
+        const Task: TaskConfigs = getTaskObject(title, taskStatus, description, new Date(dueDate), selectedUser, selectedPriority, task.id)
+        dispatch(updateTaskItem({ type: taskStatus, task: Task }));
+      }
+
+      addTaskToList();
+    }
+  }, [drawerOpen])
 
 
   const priorityTriggerElem = useMemo(() => {
@@ -64,6 +77,11 @@ const EditTaskCard: React.FC<EditTaskCardProps> = ({ task }) => {
     setDueDate(selectedDate.toISOString());
     setCalanderOpen(false);
   };
+
+  const onDeleteTask = () => {
+    dispatch(removeTaskFromColumn({ type: taskStatus, taskId: task.id }));
+
+  }
 
 
   const renderCalander = () => {
@@ -141,19 +159,19 @@ const EditTaskCard: React.FC<EditTaskCardProps> = ({ task }) => {
 
   const renderTitle = () => {
     return (
-      <div className="mb-4">
-          <textarea
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded-lg text-2xl"
-            placeholder="Task Title"
-          />
-        </div>
+      <div className="mb-4 pt-5 border-t-2 ">
+        <textarea
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded-lg text-2xl"
+          placeholder="Task Title"
+        />
+      </div>
     )
   }
   const renderDetailsSection = () => {
     return (
-      <>        
+      <>
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 mb-4 mt-10">
           {sections.map((section, index) => (
             <React.Fragment key={index}>
@@ -165,31 +183,33 @@ const EditTaskCard: React.FC<EditTaskCardProps> = ({ task }) => {
               </div>
             </React.Fragment>
           ))}
-        </div>        
-        </>
+        </div>
+      </>
     )
   }
 
   const renderDescription = () => {
-    return(
+    return (
       <div className='mt-10'>
-          <div className='flex flex-row items-center'>
-            <DocumentText size={avatarSize} color={nuetrelAvatarColor} /> <label className="block ml-2 text-sm font-medium text-gray-700">Description</label>
-          </div>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded-lg mt-3"
-            placeholder="Add a description"
-            rows={8}
-          />
+        <div className='flex flex-row items-center'>
+          <DocumentText size={avatarSize} color={nuetrelAvatarColor} /> <label className="block ml-2 text-sm font-medium text-gray-700">Description</label>
         </div>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 border rounded-lg mt-3"
+          placeholder="Add a description"
+          rows={8}
+        />
+      </div>
     )
   }
 
 
+
   return (
-    <div className="max-w-lg mx-auto p-4  rounded-lg">
+    <div className="max-w-lg mx-auto p-4 py-0 rounded-lg">
+      {renderTopBar(avatarSize, nuetrelAvatarColor, setTaskStatus, setDrawerOpen, onDeleteTask)}
       {renderTitle()}
       {renderDetailsSection()}
       {renderDescription()}

@@ -13,16 +13,16 @@ import { avatarWithName, getAvater } from "../common/avatar";
 import CustomDropdownMenu from "../common/customDropdown";
 import CustomCalendar from "../common/customCalander";
 import useClickOutside from "@/hooks/useClickOutisde";
+import { useSelector, useDispatch } from 'react-redux';
+import { addTaskToColumn, updateTaskColumns } from "@/app/GlobalRedux/Features/taskColumn/taskColumnSlice";
+import { date_M_D_FormatWrapper, priorityTaskWrapper } from "../common/wrappers";
+import { getTaskObject } from "@/utils/appUtils";
 
 interface CreateTaskCardProps {
     type: TaskTypes;
     taskAddingInProgress: boolean;
     setTaskAddingProgress: (taskAddingInProgress: boolean) => void
 }
-
-import { useSelector, useDispatch } from 'react-redux';
-import { addTaskToColumn, updateTaskColumns } from "@/app/GlobalRedux/Features/taskColumn/taskColumnSlice";
-import { date_M_D_FormatWrapper, priorityTaskWrapper } from "../common/wrappers";
 
 
 const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgress, setTaskAddingProgress }) => {
@@ -76,16 +76,8 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const addTaskToList = () => {
         console.log("#$ add to task list")
         if (selectedPriority && taskTitle && selectedUser && date) {
-            const Task: TaskConfigs = {
-                id: Date.now().toString(),
-                name: taskTitle,
-                type: type,
-                description: "",
-                date: date.toISOString(),
-                user: selectedUser,
-                priority: selectedPriority
-            }
 
+            const Task: TaskConfigs = getTaskObject(taskTitle, type, '' ,date, selectedUser, selectedPriority )
             dispatch(addTaskToColumn({ type: type, task: Task }));
         }
 

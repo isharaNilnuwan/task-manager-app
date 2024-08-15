@@ -5,10 +5,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 interface CustomCalendarProps {
     popoverOpen: boolean;
-    handleCalanderOpenChange: (open: boolean) => void;
+    handleCalanderOpenChange?: (open: boolean) => void;
     calendarSelectTriggerElem: React.ReactNode;
-    date: Date | undefined;
-    handleDateSelect: (date: Date | undefined) => void
+    date: Date;
+    handleDateSelect: (date: Date) => void
 }
 
 const CustomCalendar: React.FC<CustomCalendarProps> = ({
@@ -22,7 +22,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
     return (
         <Popover open={popoverOpen} onOpenChange={handleCalanderOpenChange}>
             <PopoverTrigger asChild>
-                {calendarSelectTriggerElem}
+                <div role="button"  tabIndex={0} >{calendarSelectTriggerElem}</div>                
             </PopoverTrigger>
             <PopoverContent align="start" className="w-auto p-0">
                 <Calendar

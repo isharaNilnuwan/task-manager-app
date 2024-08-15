@@ -77,7 +77,8 @@ const config = {
       },
       fontSize: {
         '31px': '31px',
-      }
+      },
+      neutral: '#222222'
     },
   },
   plugins: [require("tailwindcss-animate"),

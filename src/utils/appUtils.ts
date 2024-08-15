@@ -1,4 +1,4 @@
-import { DeadLineStatus } from "@/constants/constants";
+import { DeadLineStatus, TaskTypes } from "@/constants/constants";
 import moment from "moment";
 
 export function getFirstAndLastInitials(str: string) {
@@ -57,3 +57,9 @@ export function getRemainingTimeText(dueDate: string) {
       return `Should’ve completed ${Math.abs(daysDifference)} days ago`;
     }
   }
+
+  export const getStatusCircleColors = (type: TaskTypes) => {
+    if (type === TaskTypes.ToDo ) {return '#FF8A65'};
+    if (type === TaskTypes.InProgress ) {return '#1f83d0 '};
+    if (type === TaskTypes.Complete ) {return '#1F816A'};
+}

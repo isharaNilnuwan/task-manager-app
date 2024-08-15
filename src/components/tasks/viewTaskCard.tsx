@@ -67,7 +67,7 @@ const ViewTaskCard: React.FC<ViewTaskCardProps> = ({ taskItem }) => {
                 <EditTaskCard task={taskItem} />
             }
             drawerHeaderTitle={<>Mark Complete</>}
-            drawerHeaderDESC={<div></div>}
+            drawerHeaderDESC={'hllo'}
         />
     );
 };

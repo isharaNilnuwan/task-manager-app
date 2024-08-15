@@ -1,4 +1,4 @@
-import { dueDateStyles, priorityStyles } from "@/config/tasks";
+import { dueDateStyles, priorityStyles } from "@/config/tasks.config";
 import { Priority } from "@/constants/constants"
 import { getDueDateStatus, getRemainingTimeText, get_M_D_Format } from "@/utils/appUtils"
 import { Clock } from "iconsax-react"
@@ -14,11 +14,13 @@ export const date_M_D_FormatWrapper = (date: string) => {
     );
 }
 
-// export const M_D_FormatDateWrapper = () => {
-//     return (
-
-//     )
-// }
+export const M_D_FormatDateWrapper = (date: string) => {
+    const deadLinStatus = getDueDateStatus(date);
+    const { backgroundColor, contentColor } = dueDateStyles[deadLinStatus];
+    return (      
+        <p style={{ color: contentColor }}>{get_M_D_Format(date)}</p>
+    );
+}
 
 export const priorityTaskWrapper = (priority: Priority) => {
     const { backgroundColor, contentColor } = priorityStyles[priority];

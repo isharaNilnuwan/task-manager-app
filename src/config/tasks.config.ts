@@ -144,15 +144,15 @@ export const CompleteList: TaskConfigs[] = [
 export const TaskColumns: TaskColumnsProps = {
   [TaskTypes.ToDo]: {
     title: TaskTypes.ToDo,
-    items: TodoList,
+    items: [],
   },
   [TaskTypes.InProgress]: {
     title: TaskTypes.InProgress,
-    items: InProgressList,
+    items: [],
   },
   [TaskTypes.Complete]: {
     title: TaskTypes.Complete,
-    items: CompleteList,
+    items: []
   },
 };
 

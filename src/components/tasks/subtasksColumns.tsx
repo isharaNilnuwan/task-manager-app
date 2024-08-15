@@ -8,6 +8,7 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 import CreateTaskCard from "./createTaskCard";
 import { TaskTypes } from "@/constants/constants";
 import ViewTaskCard from "./viewTaskCard";
+import { getStatusCircleColors } from "@/utils/appUtils";
 
 interface SubtaskColumnsProp {
     type: TaskTypes;
@@ -19,19 +20,13 @@ const SubtaskColumns: React.FC<SubtaskColumnsProp> = ({ type, taskList, dragging
 
     const [taskAddingInProgress, setTaskAddingProgress] = useState<boolean>(false);
 
-    const getCircleColors = (type: TaskTypes) => {
-        if (type === TaskTypes.ToDo ) {return '#FF8A65'};
-        if (type === TaskTypes.InProgress ) {return '#1f83d0 '};
-        if (type === TaskTypes.Complete ) {return '#1F816A'};
-    }
-
     //render methods
     const renderHeader = () => {
         return (
             <Card className="mt-4">
                 <CardHeader className="flex flex-row p-4 items-center justify-between">
                     <div className="flex items-center space-x-2">
-                        <Record size="30" color={getCircleColors(type)} />
+                        <Record size="30" color={getStatusCircleColors(type)} />
                         <CardTitle className="flex flex-row items-center space-x-4">
                             <span className="text-xl">{type}</span>
                             <div className="flex items-center justify-center text-sm w-4 h-4 bg-blue-200 text-blue-800 rounded-full">

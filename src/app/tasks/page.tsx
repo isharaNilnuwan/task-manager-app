@@ -1,31 +1,38 @@
 "use client"
 
 import SubtaskColumns from "@/components/tasks/subtasksColumns"
-import { CompleteList, InProgressList, TaskColumns, TodoList } from "@/config/tasks"
-import { TaskTypes } from "@/constants/constants"
+import { CompleteList, InProgressList, TaskColumns, TodoList } from "@/config/tasks.config"
+import { TaskLocalSorageKey, TaskTypes } from "@/constants/constants"
 import { TaskColumn, TaskColumnsProps } from "@/types/task.types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import useDragAndDrop from "@/hooks/useDragAndDrop";
 import { RootState } from "../GlobalRedux/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTaskColumns } from "../GlobalRedux/Features/taskColumn/taskColumnSlice";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const selectTaskColumns = (state: RootState) => state.taskColumns;
 
 const Dashboard = () => {
     const dispatch = useDispatch();    
     const taskColumns = useSelector(selectTaskColumns);
-    const [columns, setColumns] = useState<TaskColumnsProps>(taskColumns);
     const [draggingInProgress, setdragginginProgress] = useState<boolean>(false);
+    const [value, setValue] = useLocalStorage<TaskColumnsProps>(TaskLocalSorageKey, TaskColumns);
+
+    useEffect(() => {
+        const fetchColumnData = () => {
+            updateColumns(value)            
+        };
+
+        fetchColumnData();
+    },[])
 
     const updateColumns = (newTaskColumns: TaskColumnsProps) => {
         dispatch(updateTaskColumns(newTaskColumns))
     }
 
     const { onDragEnd } = useDragAndDrop(taskColumns, updateColumns, setdragginginProgress);
-
-    console.log("#$ task column props", taskColumns)
 
     return (
         <DragDropContext

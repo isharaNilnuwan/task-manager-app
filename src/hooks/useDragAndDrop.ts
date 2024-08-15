@@ -1,17 +1,21 @@
-import { TaskColumns } from '@/config/tasks';
-import { TaskTypes } from '@/constants/constants';
+import { TaskColumns } from '@/config/tasks.config';
+import { TaskLocalSorageKey, TaskTypes } from '@/constants/constants';
 import { TaskColumnsProps } from '@/types/task.types';
 import { Dispatch, SetStateAction } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
+import useLocalStorage from './useLocalStorage';
 
 
 const useDragAndDrop = (columns: TaskColumnsProps, setColumns: (columns: TaskColumnsProps) => void, setdragginginProgress: Dispatch<SetStateAction<boolean>>) => {
+
+    const [value, setValue] = useLocalStorage<TaskColumnsProps>(TaskLocalSorageKey, TaskColumns);
+
     const onDragEnd = (result: DropResult) => {
+        let newColumns
         if (!result.destination) return;
         const { source, destination } = result;
 
-        if (source.droppableId !== destination.droppableId) {
-            console.log("#$ change columns")
+        if (source.droppableId !== destination.droppableId) {            
             const sourceColumn = columns[source.droppableId];
             const destColumn = columns[destination.droppableId];
             const sourceItems = [...sourceColumn.items];
@@ -24,7 +28,7 @@ const useDragAndDrop = (columns: TaskColumnsProps, setColumns: (columns: TaskCol
             ;
             destItems.splice(destination.index, 0, updatedTask);
 
-            setColumns({
+             newColumns = {
                 ...columns,
                 [source.droppableId]: {
                     ...sourceColumn,
@@ -34,22 +38,26 @@ const useDragAndDrop = (columns: TaskColumnsProps, setColumns: (columns: TaskCol
                     ...destColumn,
                     items: destItems,
                 },
-            });
+            }
+
+            setColumns(newColumns);
         } else {
             const column = columns[source.droppableId];
             const copiedItems = [...column.items];
             const [removed] = copiedItems.splice(source.index, 1);
             copiedItems.splice(destination.index, 0, removed);
 
-            setColumns({
+            newColumns = {
                 ...columns,
                 [source.droppableId]: {
                     ...column,
                     items: copiedItems,
                 },
-            });
+            }
+            setColumns(newColumns);
         }
-        //save the data as well thouth a hook
+        setValue(newColumns)
+
         setdragginginProgress(false);
     };
 

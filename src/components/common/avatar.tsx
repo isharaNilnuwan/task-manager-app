@@ -17,7 +17,7 @@ export const avatarWithName = (user: User, size: number) => {
     return (
         <div className="flex items-center space-x-4">
             {getAvater(user, size)}
-            <p>{user.name}</p>
+            <p >{user.name}</p>
         </div>
         
     )

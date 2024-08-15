@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Button } from "../ui/button";
 import { TaskConfigs, User } from "@/types/task.types";
-import { users } from "@/config/users";
+import { users } from "@/config/users.config";
 import { avatarWithName, getAvater } from "../common/avatar";
 import CustomDropdownMenu from "../common/customDropdown";
 import CustomCalendar from "../common/customCalander";
@@ -39,7 +39,6 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const onClickOutisde = useCallback(() => {
         setTaskAddingProgress(false);
         addTaskToList();
-        //save task details to the list object if all fields are filled and save to local storage
     }, [selectedPriority, selectedUser, date, taskTitle])
 
     const taskAddingRef = useClickOutside(onClickOutisde, taskAddingInProgress, ignoreClick);
@@ -47,7 +46,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
 
     const priorityTriggerElem = useMemo(() => {
         return selectedPriority ? (
-            <>{priorityTaskWrapper(selectedPriority)}</>
+            <div>{priorityTaskWrapper(selectedPriority)}</div>
         ) : (
             <div className="flex items-center bg-gray-50 text-xs rounded-lg px-2 py-1">
                 <p>Set Priority</p>
@@ -126,6 +125,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const renderPrioritySelection = () => {
         return (
             <CustomDropdownMenu
+                dropDownWidth="w-50"
                 onOpenChange={handleDropdownOpenChange}
                 dropdownTriggerElement={priorityTriggerElem}
                 render={
@@ -151,6 +151,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
     const renderProfilePicture = () => {
         return (
             <CustomDropdownMenu
+                dropDownWidth="w-56"
                 onOpenChange={handleDropdownOpenChange}
                 dropdownTriggerElement={userSelectTriggerElem}
                 render={() => (
@@ -181,7 +182,7 @@ const CreateTaskCard: React.FC<CreateTaskCardProps> = ({ type, taskAddingInProgr
                 popoverOpen={popoverOpen}
                 handleCalanderOpenChange={handleCalanderOpenChange}
                 calendarSelectTriggerElem={calendarSelectTriggerElem}
-                date={date}
+                date={date || new Date()}
                 handleDateSelect={handleDateSelect}
             />
         )

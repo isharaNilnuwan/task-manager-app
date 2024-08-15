@@ -14,3 +14,5 @@ export enum DeadLineStatus {
     NotDue = 'NotDue',
     Overdue = 'Overdue',
   }
+
+export const TaskLocalSorageKey: string = 'task-local-storage-key';

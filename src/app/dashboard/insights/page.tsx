@@ -1,3 +1,4 @@
+"use client"
 export default function Insights() {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4 bg-gray-100">

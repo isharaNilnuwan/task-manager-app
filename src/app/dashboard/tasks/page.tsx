@@ -7,10 +7,11 @@ import { TaskColumn, TaskColumnsProps } from "@/types/task.types";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import useDragAndDrop from "@/hooks/useDragAndDrop";
-import { RootState } from "../GlobalRedux/store";
+import { RootState } from "../../GlobalRedux/store";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTaskColumns } from "../GlobalRedux/Features/taskColumn/taskColumnSlice";
+import { updateTaskColumns } from "../../GlobalRedux/Features/taskColumn/taskColumnSlice";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import {withAuth} from "@/lib/withAuth";
 
 const selectTaskColumns = (state: RootState) => state.taskColumns;
 
@@ -69,4 +70,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default withAuth(Dashboard)

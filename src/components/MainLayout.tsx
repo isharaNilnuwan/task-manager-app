@@ -1,41 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 import { Cardano, Chart1, DirectInbox, Home, Setting2, TaskSquare } from 'iconsax-react';
+
+import { sideMenus } from "@/config/sideMenus";
+import { TasklyLogo } from './icons/tasklyLogo';
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const sideMenues = [
-        {
-            name: "Home",
-            svgUrl: <Home size="31" color="#FF8A65"/>,
-            path: "/"
-        },
-        {
-            name: "Tasks",
-            svgUrl: <TaskSquare size="31" color="#FF8A65"/>,
-            path: "/tasks"
-        },
-        {
-            name: "Report",
-            svgUrl: <Chart1 size="31" color="#FF8A65"/>,
-            path: "/report"
-        },
-        {
-            name: "Insight",
-            svgUrl: <Cardano size="31" color="#FF8A65"/>,
-            path: "/insight"
-        },
-        {
-            name: "Inbox",
-            svgUrl: <DirectInbox size="31" color="#FF8A65"/>,
-            path: "/inbox"
-        },
-        {
-            name: "Settings",
-            svgUrl: <Setting2 size="31" color="#FF8A65"/>,
-            path: "/settings"
-        }
-    ];
 
 
     //to-do :use a portal to set the nav bar search element to set dynamically
@@ -44,11 +16,13 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {/* Sidebar */}
             <div className="hidden md:flex flex-col w-80 bg-white">
                 <div className="flex items-center justify-center h-16 border-r border-b">
-                    <span className="text-black font-bold ">Code94 Labs</span>
+                    {/* <span className="text-black font-bold ">Taskly</span> */}
+                    
+                    <TasklyLogo/>
                 </div>
                 <div className="flex flex-col flex-1 overflow-y-auto border-r">
                     <nav className="flex-1 px-7 py-4">
-                        {sideMenues.map((menu) => (
+                        {sideMenus.map((menu) => (
                             <Link
                                 key={menu.name}
                                 href={menu.path}
@@ -90,3 +64,5 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 export default MainLayout;
+
+
